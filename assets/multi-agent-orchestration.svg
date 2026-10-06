@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="edgeGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="edgeGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+    <linearGradient id="edgeGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="edgeGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+
+    <pattern id="gridSub" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(35, 46, 66, 0.4)" stroke-width="0.8" />
+    </pattern>
+
+    <filter id="nodeGlow">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes dashTravel {
+      from { stroke-dashoffset: 100; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    @keyframes nodeBreathe {
+      0%, 100% { stroke-opacity: 0.6; }
+      50% { stroke-opacity: 1; }
+    }
+    .anim-edge {
+      stroke-dasharray: 6, 6;
+      animation: dashTravel 3s linear infinite;
+    }
+    .pulse-ring {
+      animation: livePulse 2s infinite ease-in-out;
+      transform-origin: center;
+    }
+    .node-box {
+      animation: nodeBreathe 3s infinite ease-in-out;
+    }
+  </style>
+
+  <!-- Dark Background Canvas -->
+  <rect width="1100" height="480" rx="14" fill="#080c13" stroke="#1f293d" stroke-width="1.5" />
+  <rect width="1100" height="480" rx="14" fill="url(#gridSub)" />
+
+  <!-- Graph Header -->
+  <g transform="translate(40, 36)">
+    <circle cx="8" cy="8" r="4.5" fill="#10b981" class="pulse-ring" />
+    <text x="22" y="12" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#f8fafc" letter-spacing="1">
+      MULTI-AGENT AUTONOMOUS REASONING TOPOLOGY
+    </text>
+    <text x="22" y="28" font-family="'Inter', sans-serif" font-size="10" fill="#64748b">
+      Live WebSocket Orchestration Loop powered by NVIDIA Nemotron &amp; Nebius Token Factory
+    </text>
+  </g>
+
+  <!-- CONNECTING ANIMATED EDGES -->
+  <!-- From Incident Node to 4 Forensics Agents -->
+  <path d="M 180 230 C 230 230, 240 110, 300 110" fill="none" stroke="url(#edgeGrad1)" stroke-width="2" class="anim-edge" />
+  <path d="M 180 230 C 230 230, 240 190, 300 190" fill="none" stroke="url(#edgeGrad1)" stroke-width="2" class="anim-edge" />
+  <path d="M 180 230 C 230 230, 240 270, 300 270" fill="none" stroke="url(#edgeGrad1)" stroke-width="2" class="anim-edge" />
+  <path d="M 180 230 C 230 230, 240 350, 300 350" fill="none" stroke="url(#edgeGrad1)" stroke-width="2" class="anim-edge" />
+
+  <!-- From Forensics Agents to Root Cause Node -->
+  <path d="M 480 110 C 530 110, 540 230, 580 230" fill="none" stroke="url(#edgeGrad2)" stroke-width="2" class="anim-edge" />
+  <path d="M 480 190 C 530 190, 540 230, 580 230" fill="none" stroke="url(#edgeGrad2)" stroke-width="2" class="anim-edge" />
+  <path d="M 480 270 C 530 270, 540 230, 580 230" fill="none" stroke="url(#edgeGrad2)" stroke-width="2" class="anim-edge" />
+  <path d="M 480 350 C 530 350, 540 230, 580 230" fill="none" stroke="url(#edgeGrad2)" stroke-width="2" class="anim-edge" />
+
+  <!-- From Root Cause to Response Node -->
+  <path d="M 740 230 L 790 230" fill="none" stroke="url(#edgeGrad3)" stroke-width="2.5" class="anim-edge" />
+
+  <!-- From Response to Recovery Node -->
+  <path d="M 940 230 L 980 230" fill="none" stroke="url(#edgeGrad4)" stroke-width="2.5" class="anim-edge" />
+
+  <!-- 1. INCIDENT DETECTED NODE -->
+  <g transform="translate(40, 195)">
+    <rect width="140" height="70" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="1.8" class="node-box" />
+    <circle cx="20" cy="22" r="4" fill="#ef4444" class="pulse-ring" />
+    <text x="30" y="26" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ef4444">SEV1 ALERT</text>
+    <text x="14" y="44" font-family="'Inter', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Payment Service</text>
+    <text x="14" y="58" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">P99: 8420ms | 31% Err</text>
+  </g>
+
+  <!-- 2. LAYER OF 4 FORENSIC AGENTS -->
+  <!-- Log Intelligence Agent -->
+  <g transform="translate(300, 75)">
+    <rect width="180" height="68" rx="10" fill="#0c1322" stroke="#06b6d4" stroke-width="1.4" class="node-box" />
+    <text x="14" y="24" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#38bdf8">LOG INTELLIGENCE</text>
+    <text x="14" y="42" font-family="'Inter', sans-serif" font-size="9" fill="#e2e8f0">Pool acquisition timeout</text>
+    <text x="14" y="56" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981">✓ 100/100 Conns Held</text>
+  </g>
+
+  <!-- Metrics Intelligence Agent -->
+  <g transform="translate(300, 155)">
+    <rect width="180" height="68" rx="10" fill="#0c1322" stroke="#10b981" stroke-width="1.4" class="node-box" />
+    <text x="14" y="24" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#34d399">METRICS AGENT</text>
+    <text x="14" y="42" font-family="'Inter', sans-serif" font-size="9" fill="#e2e8f0">45x Latency Spikes</text>
+    <text x="14" y="56" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981">✓ P99: 8420ms Degradation</text>
+  </g>
+
+  <!-- Code Intelligence Agent -->
+  <g transform="translate(300, 235)">
+    <rect width="180" height="68" rx="10" fill="#0c1322" stroke="#f59e0b" stroke-width="1.4" class="node-box" />
+    <text x="14" y="24" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#fbbf24">CODE INTELLIGENCE</text>
+    <text x="14" y="42" font-family="'Inter', sans-serif" font-size="9" fill="#e2e8f0">Commit 7f8a91c (PR #1042)</text>
+    <text x="14" y="56" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981">✓ Unindexed Query Found</text>
+  </g>
+
+  <!-- Research Agent -->
+  <g transform="translate(300, 315)">
+    <rect width="180" height="68" rx="10" fill="#0c1322" stroke="#a855f7" stroke-width="1.4" class="node-box" />
+    <text x="14" y="24" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#c084fc">RESEARCH AGENT</text>
+    <text x="14" y="42" font-family="'Inter', sans-serif" font-size="9" fill="#e2e8f0">Seq Scan Pool Exhaustion</text>
+    <text x="14" y="56" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981">✓ PG Tuning &amp; Runbook</text>
+  </g>
+
+  <!-- 3. ROOT CAUSE AGENT NODE -->
+  <g transform="translate(580, 195)">
+    <rect width="160" height="70" rx="10" fill="#180e1a" stroke="#f43f5e" stroke-width="1.8" class="node-box" />
+    <circle cx="16" cy="22" r="4" fill="#f43f5e" class="pulse-ring" />
+    <text x="26" y="26" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#f43f5e">ROOT CAUSE AGENT</text>
+    <text x="14" y="44" font-family="'Inter', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Inferred Diagnosis</text>
+    <text x="14" y="58" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981">Confidence: 95% HIGH</text>
+  </g>
+
+  <!-- 4. RESPONSE AGENT (SAFE REMEDIATION) NODE -->
+  <g transform="translate(790, 195)">
+    <rect width="150" height="70" rx="10" fill="#191308" stroke="#f59e0b" stroke-width="1.8" class="node-box" />
+    <circle cx="16" cy="22" r="4" fill="#f59e0b" class="pulse-ring" />
+    <text x="26" y="26" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#f59e0b">RESPONSE AGENT</text>
+    <text x="14" y="44" font-family="'Inter', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Safe Whitelist Action</text>
+    <text x="14" y="58" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#38bdf8">rollback_deployment</text>
+  </g>
+
+  <!-- 5. RECOVERY CERTIFIED NODE -->
+  <g transform="translate(980, 195)">
+    <rect width="90" height="70" rx="10" fill="#091b14" stroke="#10b981" stroke-width="2" class="node-box" />
+    <circle cx="16" cy="22" r="4" fill="#10b981" class="pulse-ring" />
+    <text x="26" y="26" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#10b981">RECOVERY</text>
+    <text x="10" y="44" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#34d399">CERTIFIED</text>
+    <text x="10" y="58" font-family="'JetBrains Mono', monospace" font-size="8" fill="#e2e8f0">P99: 192ms</text>
+  </g>
+
+  <!-- Legend & Bottom Telemetry -->
+  <g transform="translate(40, 420)">
+    <rect width="1020" height="34" rx="8" fill="#0d131f" stroke="#232e42" stroke-width="1" />
+    <text x="20" y="21" font-family="'JetBrains Mono', monospace" font-size="10" fill="#94a3b8">
+      STATUS: <tspan fill="#10b981" font-weight="700">AUTONOMOUS LOOP ACTIVE</tspan>
+    </text>
+    <text x="320" y="21" font-family="'JetBrains Mono', monospace" font-size="10" fill="#94a3b8">
+      AI SAFETY: <tspan fill="#38bdf8" font-weight="700">DETERMINISTIC WHITELIST ENFORCED</tspan>
+    </text>
+    <text x="740" y="21" font-family="'JetBrains Mono', monospace" font-size="10" fill="#94a3b8">
+      RECOVERY VERIFIED: <tspan fill="#a3e635" font-weight="700">&lt;200ms LATENCY RESTORED</tspan>
+    </text>
+  </g>
+</svg>

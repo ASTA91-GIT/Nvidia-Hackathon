@@ -1,100 +1,168 @@
-# INCIDENTZERO 🛡️
-### Autonomous AI Incident Commander
+<div align="center">
 
-**Built for the NVIDIA × Nebius Global AI Hackathon**
+<!-- Animated Hero Banner -->
+<img src="assets/incidentzero-banner.svg" alt="INCIDENTZERO: Autonomous AI Incident Commander" width="100%" />
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Python: 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688.svg)](https://fastapi.tiangolo.com/)
-[![React 19](https://img.shields.io/badge/React-19.2-61dafb.svg)](https://react.dev/)
-[![NVIDIA Nemotron](https://img.shields.io/badge/AI-NVIDIA%20Nemotron-76b900.svg)](https://build.nvidia.com/)
-[![Nebius Token Factory](https://img.shields.io/badge/Platform-Nebius%20Token%20Factory-8a2be2.svg)](https://nebius.com/)
+<br/><br/>
 
----
+<!-- Animated Terminal Header -->
+<img src="assets/animated-terminal.svg" alt="IncidentZero Terminal Status" width="100%" />
 
-## 🚀 Project Vision
+<br/>
 
-**IncidentZero** is an autonomous AI incident-response platform that investigates complex simulated production outages across microservices. Instead of requiring human on-call engineers to manually correlate disparate monitoring dashboards, logs, and Git commits during an outage, IncidentZero dispatches a fleet of specialized AI agents coordinated by an **Incident Commander**.
+[![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=for-the-badge)](LICENSE)
+[![NVIDIA Nemotron](https://img.shields.io/badge/AI-NVIDIA%20Nemotron%2070B-76b900.svg?style=for-the-badge&logo=nvidia)](https://build.nvidia.com/)
+[![Nebius Token Factory](https://img.shields.io/badge/Platform-Nebius%20Token%20Factory-8a2be2.svg?style=for-the-badge)](https://nebius.com/)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%2B%20WebSockets-009688.svg?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![React 19](https://img.shields.io/badge/Frontend-React%2019%20%2B%20TypeScript-61dafb.svg?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tests](https://img.shields.io/badge/Test%20Suite-10%2F10%20PASSED-10b981.svg?style=for-the-badge)](backend/tests/)
 
-### The Autonomous Investigation Pipeline:
-```
-DETECT ➔ INVESTIGATE ➔ COLLECT EVIDENCE ➔ CORRELATE ➔ ROOT CAUSE ➔ RESPONSE ➔ SAFE REMEDIATION ➔ VERIFY RECOVERY ➔ GENERATE REPORT
-```
+<p align="center">
+  <b>Built for the NVIDIA × Nebius Global AI Hackathon</b>
+  <br />
+  <i>An autonomous multi-agent operational platform that detects, investigates, diagnoses, and safely remediates production outages across microservices.</i>
+</p>
 
----
-
-## 🧠 Multi-Agent Architecture
-
-IncidentZero separates forensic investigation into discrete, specialized agent responsibilities with strictly typed Pydantic contracts:
-
-1. **Incident Commander (Orchestrator):** Manages the investigation state machine, coordinates child agents, streams real-time updates over WebSockets, and compiles the post-mortem report.
-2. **Log Intelligence Agent:** Ingests microservice, database, and API gateway logs to extract stack traces, warning cascades, and error bursts.
-3. **Metrics Agent:** Evaluates telemetry counters (P99/P50 latency, error rates, CPU/RAM utilization, and DB connection pool exhaustion).
-4. **Code Intelligence Agent:** Audits recent deployments, Git commits, PR messages, and code diffs to spot unindexed queries, memory allocations, or configuration regressions.
-5. **Research Agent:** Investigates architectural failure modes and runbooks with an extensible knowledge provider (Tavily/custom docs).
-6. **Root Cause Agent:** Synthesizes the Correlated Evidence Dossier to infer the root cause of the incident.
-7. **Response Agent:** Formulates a safe, low-risk remediation strategy constrained exclusively to whitelisted actions.
-8. **Recovery Verification Agent:** Audits post-remediation telemetry against nominal baselines to certify recovery.
+[Live Demo](#-demo-walkthrough) • [Multi-Agent Topology](#-multi-agent-topology) • [AI Safety](#-ai-safety--deterministic-execution) • [Quick Start](#-quick-start) • [Architecture](docs/architecture.md)
 
 ---
 
-## ⚡ NVIDIA & Nebius Token Factory Integration
+</div>
 
-IncidentZero uses **Nebius Token Factory** to power real-time reasoning with NVIDIA open-source foundation models:
+## 🌟 The IncidentZero Vision
 
-- **Configured Model:** `nvidia/Llama-3.1-Nemotron-70B-Instruct-HF` (or any Nebius-hosted NVIDIA model).
-- **Clean Abstraction:** Core agent logic interfaces with an abstract `AIProvider` base class (`backend/app/ai/provider.py` and `backend/app/ai/nebius.py`).
-- **No Hardcoded API Keys & No Fakes:** All credentials load via environment variables. When no key is present, the UI clearly displays **"AI provider not configured"** rather than pretending to work.
+In mission-critical production environments, incident triage is hindered by telemetry sprawl: fragmented application logs, degraded metric counters, unindexed database scans, and breaking Git commits across distributed microservices.
+
+**IncidentZero** solves this by dispatching an autonomous fleet of specialized AI agents coordinated by an **Incident Commander**. 
+
+Instead of waiting for an on-call engineer at 3 AM to piece together an outage, IncidentZero:
+1. **Detects** telemetry degradation in real-time via automated health probes.
+2. **Dispatches** 4 parallel forensic agents (Logs, Metrics, Git Commits, Technical Research).
+3. **Correlates** an evidence dossier with confidence ratings.
+4. **Infers** the singular underlying root cause (grounded strictly in telemetry, not pre-labeled flags).
+5. **Formulates** a safe remediation plan constrained to an explicit whitelist.
+6. **Executes** the remediation inside a sandboxed simulation environment.
+7. **Audits** before-and-after telemetry to verify that latencies and error rates have returned to baseline.
+8. **Generates** an executive post-mortem incident report.
 
 ---
 
-## 🛡️ AI Safety & Deterministic Sandboxing
+## ⚡ Multi-Agent Topology & Live Orchestration
 
-IncidentZero strictly isolates **AI reasoning** from **system execution**:
-- ❌ **No Arbitrary Code Execution:** The LLM is never allowed to execute raw shell commands, delete files, or alter databases directly.
-- ✅ **Strict Action Whitelisting:** Remediations must match permitted actions (`rollback_deployment`, `restart_service`, `restore_previous_configuration`) on authorized target services.
-- ✅ **Verification Gate:** The Recovery Agent verifies telemetry recovery before marking the incident resolved.
+<div align="center">
+  <!-- Animated Multi-Agent Flow Diagram -->
+  <img src="assets/multi-agent-orchestration.svg" alt="Multi-Agent Autonomous Orchestration Topology" width="100%" />
+</div>
 
----
+<br/>
 
-## 🎮 Realistic Production Simulator
+### Specialized Forensic Agents with Typed Pydantic Contracts:
 
-Includes 3 simulated failure scenarios across 5 microservices (API Gateway, Payment Service, User Service, Database, Monitoring System):
-
-| Scenario | Injected Failure | Degraded Telemetry | Expected Whitelisted Action |
+| Specialized Agent | Role & Domain | Input Telemetry | Pydantic Contract Output |
 | :--- | :--- | :--- | :--- |
-| **1. Database Query Regression** | PR #1042 introduced an unindexed nested query on audit records table | Latency spikes to ~8.4s, 31% error rate, DB pool hits 100/100 | `rollback_deployment` |
-| **2. Memory Leak** | PR #1055 introduced an unbounded in-memory telemetry buffer | Memory reaches 96%, recurring container OOMKilled (code 137) | `restart_service` |
-| **3. Dependency Timeout** | Config update disabled circuit breaker and raised fraud timeout to 30s | Worker thread pool starvation, cascaded 504 Gateway Timeouts | `restore_previous_configuration` |
+| **Incident Commander** | Top-level Orchestrator & State Machine | Outage alerts, environment state | State transitions, WebSocket broadcast, Post-Mortem Report |
+| **Log Intelligence Agent** | Log Anomaly & Cascade Detection | Distributed microservice logs | `LogAnalysisResult` (anomalies, suspect errors, affected services) |
+| **Metrics Agent** | Telemetry & Saturation Evaluator | Latency P99/P50, error rates, CPU/RAM | `MetricsAnalysisResult` (P99 impact, error spike %, pool saturation) |
+| **Code Intelligence Agent** | Git Commits & Code Diff Inspector | Commits, diffs, PR messages, author | `CodeAnalysisResult` (regressions, culprit flag, risk rating) |
+| **Research Agent** | Failure Pattern & Runbook Research | Error signatures, symptoms | `ResearchResult` (query, sources, findings, recommendations) |
+| **Root Cause Agent** | Multi-Source Evidence Synthesizer | Correlated Evidence Dossier | `RootCauseDiagnosis` (diagnosis title, probable root cause, suspect service) |
+| **Response Agent** | Safe Remediation Strategist | Root Cause Diagnosis | `RemediationPlan` (whitelisted action, risk, rollback contingency) |
+| **Recovery Verification Agent** | Telemetry Health Auditor | Baseline, Incident, and Post metrics | `RecoveryVerificationResult` (is_recovered, latency delta, certification) |
 
 ---
 
-## 🛠️ Getting Started
+## 🤖 NVIDIA & Nebius Token Factory Integration
 
-### Prerequisites
+IncidentZero makes **real runtime calls** to **Nebius Token Factory** powering open-source **NVIDIA Nemotron** models:
+
+- **Primary Model:** `nvidia/Llama-3.1-Nemotron-70B-Instruct-HF`
+- **Clean Architecture:** `backend/app/ai/provider.py` abstracts all reasoning calls.
+- **Configurable Environment:** Loaded via `NEBIUS_API_KEY`, `NEBIUS_MODEL`, and `NEBIUS_API_BASE_URL`.
+- **Honest State Handling:** If credentials are not supplied, the interface clearly shows **"AI provider not configured"** instead of pretending to work or returning fake mock text.
+- **Deterministic Test Engine:** An isolated deterministic provider is enabled for automated unit and E2E CI tests.
+
+---
+
+## 🛡️ AI Safety & Deterministic Execution
+
+In SRE and production operations, letting an LLM execute arbitrary shell scripts or code is unacceptable. IncidentZero enforces a strict architectural boundary:
+
+```
+┌─────────────────────────────────┐        ┌──────────────────────────────────┐
+│        AI REASONING LAYER       │        │  DETERMINISTIC EXECUTION LAYER   │
+│  Response Agent recommends:     │ ─────> │  - Validates action in whitelist │
+│  "rollback_deployment"          │        │  - Validates authorized service  │
+│  (Pure proposal, no execution)  │        │  - Executes sandboxed operation  │
+└─────────────────────────────────┘        └──────────────────────────────────┘
+```
+
+### Whitelisted Actions:
+- `rollback_deployment`: Rolls back the target service container to the previous stable release artifact.
+- `restart_service`: Performs a rolling restart of worker pods to flush corrupted heap memory or thread pools.
+- `restore_previous_configuration`: Reverts runtime configuration flags to known-good baseline values.
+
+---
+
+## 🎮 Realistic 5-Microservice Simulator
+
+Simulates an interconnected production microservices mesh:
+- **API Gateway:** Ingress routing, client timeouts, HTTP 504 tracking.
+- **Payment Service:** Core transaction ledger and payment processing worker.
+- **User Service:** Account history synchronization.
+- **Database:** Primary PostgreSQL cluster with connection pool limits (100 active).
+- **Monitoring System:** Synthetic telemetry, latency counters, and alerting daemon.
+
+### Injected Outage Scenarios:
+<details open>
+<summary><b>1. Database Query Regression (SEV1)</b></summary>
+<br/>
+Deployment PR #1042 introduced an unindexed nested query on payment audit records. Saturated all 100 postgres connections, causing P99 latency to spike from 185ms to 8420ms with 31% HTTP 504 timeouts across the API Gateway.
+<br/><i>Remediation:</i> <code>rollback_deployment</code>
+</details>
+
+<details>
+<summary><b>2. Memory Saturation & OOMKilled Crashes (SEV1)</b></summary>
+<br/>
+Deployment PR #1055 introduced an unbounded in-memory telemetry buffer. Memory escalated to 96%, triggering recurring container OOM terminations (exit code 137) and 502 Bad Gateway responses.
+<br/><i>Remediation:</i> <code>restart_service</code>
+</details>
+
+<details>
+<summary><b>3. Service Dependency Failure & Timeout Cascade (SEV2)</b></summary>
+<br/>
+Configuration update disabled the circuit breaker and raised fraud evaluation timeouts to 30 seconds. Downstream partner slowdown starved all worker threads.
+<br/><i>Remediation:</i> <code>restore_previous_configuration</code>
+</details>
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
 - Python 3.11+
 - Node.js 20+ & npm
 - Nebius Token Factory API Key (Optional for offline test mode)
 
-### 1. Clone & Setup Environment
+### 2. Local Setup
 ```bash
-git clone https://github.com/your-username/incidentzero.git
-cd incidentzero
+# Clone the repository
+git clone https://github.com/ASTA91-GIT/Nvidia-Hackathon.git
+cd Nvidia-Hackathon
 
-# Copy environment variables
+# Configure environment variables
 cp .env.example .env
 ```
 
-Edit `.env` with your Nebius Token Factory credentials:
+Add your Nebius Token Factory credentials to `.env`:
 ```ini
 NEBIUS_API_KEY=your_nebius_api_key_here
 NEBIUS_MODEL=nvidia/Llama-3.1-Nemotron-70B-Instruct-HF
 NEBIUS_API_BASE_URL=https://api.tokenfactory.nebius.com/v1
 ```
 
-### 2. Run Backend
+### 3. Start Backend
 ```bash
-# Setup virtual environment
+# Create virtual environment
 python -m venv backend/.venv
 
 # Activate virtual environment
@@ -106,12 +174,12 @@ source backend/.venv/bin/activate
 # Install dependencies
 pip install -r backend/requirements.txt
 
-# Start FastAPI server
+# Run FastAPI with WebSockets
 uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-The API is available at `http://localhost:8000` (Swagger UI at `/docs`).
+API runs on `http://localhost:8000` (Interactive Swagger at `http://localhost:8000/docs`).
 
-### 3. Run Frontend
+### 4. Start Command Center Frontend
 ```bash
 cd frontend
 npm install --legacy-peer-deps
@@ -124,30 +192,37 @@ Open `http://localhost:5173` in your browser.
 ## 🐳 Docker Deployment
 
 Run both backend and frontend with a single command:
-
 ```bash
 docker compose up --build
 ```
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
+- **Frontend Dashboard:** `http://localhost:3000`
+- **Backend API:** `http://localhost:8000`
 
 ---
 
-## 🧪 Running the Test Suite
+## 🧪 Comprehensive Test Suite
 
-IncidentZero includes unit, simulation, agent contract, and end-to-end integration tests:
+IncidentZero comes with unit, agent schema, safety whitelist, and end-to-end integration tests:
 
 ```bash
-# Run all tests with pytest
+# Run full test suite with pytest
 backend/.venv/Scripts/python -m pytest backend/tests/ -v
 ```
 
-All 10 test suites cover:
-- FastAPI endpoints & system health
-- Microservice simulator & telemetry generation
-- Whitelist safety validation
-- Multi-agent evidence extraction & database persistence
-- Full autonomous investigation pipeline (E2E)
+```
+backend/tests/test_api.py::test_root PASSED [ 10%]
+backend/tests/test_api.py::test_system_health PASSED [ 20%]
+backend/tests/test_api.py::test_list_scenarios PASSED [ 30%]
+backend/tests/test_api.py::test_create_and_get_incident PASSED [ 40%]
+backend/tests/test_simulator.py::test_trigger_incident_creates_telemetry PASSED [ 50%]
+backend/tests/test_simulator.py::test_remediation_whitelist_validation PASSED [ 60%]
+backend/tests/test_simulator.py::test_remediation_execution_and_metrics_recovery PASSED [ 70%]
+backend/tests/test_agents.py::test_log_intelligence_agent PASSED [ 80%]
+backend/tests/test_agents.py::test_root_cause_agent PASSED [ 90%]
+backend/tests/test_e2e.py::test_full_autonomous_investigation_e2e PASSED [100%]
+
+======================= 10 passed in 1.10s =======================
+```
 
 ---
 
@@ -155,13 +230,14 @@ All 10 test suites cover:
 
 1. Open the **System Operations Dashboard** (`http://localhost:5173`).
 2. Click the glowing **"SIMULATE INCIDENT"** button.
-3. Select **"Database Query Regression"** and ensure *Auto-Dispatch Multi-Agent Investigation* is checked.
-4. Watch the **Interactive Multi-Agent Graph** in real-time as Log, Metrics, Code, and Research agents activate.
-5. Inspect the **Telemetry Charts** as P99 latency escalates to 8420ms.
-6. Review the **Root Cause Diagnosis** inferred by the Root Cause Agent.
-7. Click **"Execute Safe Remediation"** to trigger the whitelisted `rollback_deployment` action.
-8. Watch the **Recovery Agent** audit post-remediation metrics and certify recovery.
-9. Review and print the authoritative **Post-Mortem Incident Report**.
+3. Select **"Database Query Regression"** and ensure *Auto-Dispatch Multi-Agent Investigation* is enabled.
+4. Watch the **Interactive Multi-Agent Graph (React Flow)** update in real time with animated status pulses.
+5. Inspect the **Telemetry Charts (Recharts)** showing P99 latency spiking over 8000ms.
+6. Review the **Forensic Evidence Dossier** and **Live Raw Logs Terminal**.
+7. Examine the **Root Cause Diagnosis** inferred by the Root Cause Agent.
+8. Click **"Execute Safe Remediation"** to trigger the whitelisted `rollback_deployment`.
+9. Watch the **Recovery Verification Agent** certify nominal baseline restoration (&lt;200ms latency).
+10. Review and print the authoritative **Post-Mortem Incident Report**.
 
 ---
 
