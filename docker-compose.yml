@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: incidentzero-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - NEBIUS_API_KEY=${NEBIUS_API_KEY}
+      - NEBIUS_MODEL=${NEBIUS_MODEL:-nvidia/Llama-3.1-Nemotron-70B-Instruct-HF}
+      - NEBIUS_API_BASE_URL=${NEBIUS_API_BASE_URL:-https://api.tokenfactory.nebius.com/v1}
+      - DATABASE_URL=sqlite:///./incidentzero.db
+      - ENVIRONMENT=production
+    volumes:
+      - incidentzero-data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: incidentzero-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  incidentzero-data:
